@@ -1,0 +1,6 @@
+.zig-cache/
+zig-out/
+.crewman.db
+main
+commands
+db
