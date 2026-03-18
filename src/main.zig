@@ -4,22 +4,24 @@ const commands = @import("commands.zig");
 
 pub fn main() !void {
     defer db.close();
-    
+
     // Initialize database
     try db.init();
-    
+
     // Parse command line arguments
     const args = std.process.argsAlloc(std.heap.page_allocator) catch return;
     defer std.process.argsFree(std.heap.page_allocator, args);
-    
+
     if (args.len < 2) {
         commands.showHelp();
         return;
     }
-    
+
     const cmd = args[1];
-    const cmd_args: [][]const u8 = args[2..];
-    
+
+    // Use the raw args directly - they work with the function signatures
+    const cmd_args = args[2..];
+
     if (std.mem.eql(u8, cmd, "project")) {
         try handleProject(cmd_args);
     } else if (std.mem.eql(u8, cmd, "task")) {
@@ -40,15 +42,15 @@ pub fn main() !void {
     }
 }
 
-fn handleProject(args: [][]const u8) !void {
+fn handleProject(args: []const [:0]const u8) !void {
     if (args.len < 1) {
         std.debug.print("{s}Usage: crewman project <init|list|delete>{s}\n", .{ commands.colors.dim, commands.colors.reset });
         return;
     }
-    
+
     const subcmd = args[0];
     const subcmd_args = args[1..];
-    
+
     if (std.mem.eql(u8, subcmd, "init")) {
         try commands.projectInit(subcmd_args);
     } else if (std.mem.eql(u8, subcmd, "list") or std.mem.eql(u8, subcmd, "ls")) {
@@ -64,15 +66,15 @@ fn handleProject(args: [][]const u8) !void {
     }
 }
 
-fn handleTask(args: [][]const u8) !void {
+fn handleTask(args: []const [:0]const u8) !void {
     if (args.len < 1) {
         std.debug.print("{s}Usage: crewman task <add|list|move|delete|assign|depend|deps|run>{s}\n", .{ commands.colors.dim, commands.colors.reset });
         return;
     }
-    
+
     const subcmd = args[0];
     const subcmd_args = args[1..];
-    
+
     if (std.mem.eql(u8, subcmd, "add") or std.mem.eql(u8, subcmd, "create")) {
         try commands.taskAdd(subcmd_args);
     } else if (std.mem.eql(u8, subcmd, "list") or std.mem.eql(u8, subcmd, "ls")) {
@@ -103,15 +105,15 @@ fn handleTask(args: [][]const u8) !void {
     }
 }
 
-fn handleCrew(args: [][]const u8) !void {
+fn handleCrew(args: []const [:0]const u8) !void {
     if (args.len < 1) {
         std.debug.print("{s}Usage: crewman crew <add|list|delete>{s}\n", .{ commands.colors.dim, commands.colors.reset });
         return;
     }
-    
+
     const subcmd = args[0];
     const subcmd_args = args[1..];
-    
+
     if (std.mem.eql(u8, subcmd, "add") or std.mem.eql(u8, subcmd, "create")) {
         try commands.crewAdd(subcmd_args);
     } else if (std.mem.eql(u8, subcmd, "list") or std.mem.eql(u8, subcmd, "ls")) {
@@ -127,15 +129,15 @@ fn handleCrew(args: [][]const u8) !void {
     }
 }
 
-fn handleAgent(args: [][]const u8) !void {
+fn handleAgent(args: []const [:0]const u8) !void {
     if (args.len < 1) {
         std.debug.print("{s}Usage: crewman agent <add|list|delete>{s}\n", .{ commands.colors.dim, commands.colors.reset });
         return;
     }
-    
+
     const subcmd = args[0];
     const subcmd_args = args[1..];
-    
+
     if (std.mem.eql(u8, subcmd, "add") or std.mem.eql(u8, subcmd, "create")) {
         try commands.agentAdd(subcmd_args);
     } else if (std.mem.eql(u8, subcmd, "list") or std.mem.eql(u8, subcmd, "ls")) {

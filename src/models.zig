@@ -67,7 +67,7 @@ pub const TaskStatus = enum {
     in_progress,
     done,
     cancelled,
-    
+
     pub fn fromStr(s: []const u8) ?TaskStatus {
         if (std.mem.eql(u8, s, "pending")) return .pending;
         if (std.mem.eql(u8, s, "in_progress")) return .in_progress;
@@ -75,11 +75,11 @@ pub const TaskStatus = enum {
         if (std.mem.eql(u8, s, "cancelled")) return .cancelled;
         return null;
     }
-    
+
     pub fn all() []const []const u8 {
         return &.{"pending", "in_progress", "done", "cancelled"};
     }
-    
+
     pub fn emoji(s: []const u8) []const u8 {
         if (std.mem.eql(u8, s, "pending")) return "⭕";
         if (std.mem.eql(u8, s, "in_progress")) return "🔄";
@@ -94,7 +94,7 @@ pub const Priority = enum {
     medium,
     high,
     urgent,
-    
+
     pub fn fromInt(i: i32) Priority {
         switch (i) {
             0 => return .low,
@@ -103,7 +103,7 @@ pub const Priority = enum {
             else => return .urgent,
         }
     }
-    
+
     pub fn emoji(p: Priority) []const u8 {
         switch (p) {
             .low => return "🔵",
