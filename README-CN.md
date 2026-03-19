@@ -1,5 +1,7 @@
 # crewman-zig
 
+[English README](README.md)
+
 `crewman-zig` 是一个本地优先的 CLI 任务管理工具，使用 Zig 编写，并以 SQLite 作为底层存储。
 
 ## 当前状态

@@ -1,5 +1,7 @@
 # crewman-zig
 
+[中文说明](README-CN.md)
+
 `crewman-zig` is a local-first CLI task manager written in Zig and backed by SQLite.
 
 ## Current Status
@@ -70,3 +72,7 @@ If you add new CLI features, extend `src/integration_test.zig` so the persisted 
 - Ignore generated outputs in `zig-out/`, `.zig-cache/`, and the local `.crewman.db`.
 - Keep CLI behavior and schema changes in sync; `db.init()` is now the migration point for additive table and column changes.
 - Tests should call `db.setPath(...)` or equivalent isolation helpers instead of reusing `.crewman.db`.
+
+## License
+
+MIT. See the [LICENSE](LICENSE) file.
